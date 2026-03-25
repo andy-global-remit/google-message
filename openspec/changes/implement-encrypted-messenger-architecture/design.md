@@ -40,6 +40,12 @@ Create a root `infra/` module that composes:
 - `modules/iam`: service account and role bindings.
 - `modules/cloud-functions`: function deployment, source bucket/object, invoker IAM.
 
+Foundation module usage guidance:
+
+- Prefer `terraform-example-foundation` patterns/modules for security baseline, org/folder/project structure, and landing-zone guardrails where those layers are in scope.
+- Prefer `cloud-foundation-fabric` modules/blueprints for workload-level components (APIs, IAM bindings, Firestore, Secret Manager, Cloud Run/Functions-adjacent resources) when they reduce bespoke Terraform and remain aligned with architecture constraints.
+- If a required resource is not covered cleanly by either foundation toolkit, implement a local module with interfaces consistent with the selected foundation style.
+
 Design choices:
 
 - Keep module boundaries aligned with the architecture doc for easy ownership.

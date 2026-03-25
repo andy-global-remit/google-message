@@ -20,6 +20,19 @@ The infrastructure MUST be provisioned from Terraform module composition and inc
 - **AND** `logging.googleapis.com`
 - **AND** `iam.googleapis.com`.
 
+### Requirement: Prefer Google Cloud foundation modules where applicable
+Terraform implementation MUST reuse proven Google foundation modules/blueprints where they fit the architecture, instead of re-implementing equivalent controls from scratch.
+
+#### Scenario: Secure landing zone controls use terraform-example-foundation
+- **WHEN** organization/folder/project baseline, policy guardrails, and shared foundation controls are needed
+- **THEN** implementation uses `terraform-example-foundation` patterns/modules as the default baseline
+- **AND** any intentional deviation is documented with rationale in implementation docs.
+
+#### Scenario: Service-level infrastructure uses cloud-foundation-fabric
+- **WHEN** implementing adaptable project/service resources for this messenger platform
+- **THEN** implementation prefers `cloud-foundation-fabric` modules/blueprints where they meet requirements
+- **AND** custom Terraform resources are only added for gaps not covered by Fabric modules.
+
 ### Requirement: Cloud Functions expose encrypted messenger API surface
 The backend MUST expose HTTP endpoints for auth, key management, encrypted message exchange, and push subscription management.
 
