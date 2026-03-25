@@ -32,6 +32,7 @@ The repository currently contains architecture intent and an OpenAPI contract, b
 - PWA + WASM integration plan for identity/prekey/session lifecycle and local secure storage.
 - Firestore schema, indexes, and message flow constraints required by the architecture.
 - Web Push subscription and delivery flow based on VAPID.
+- Recommended repository structure for app/runtime/infra and CI/CD ownership boundaries.
 
 ### Out of scope
 

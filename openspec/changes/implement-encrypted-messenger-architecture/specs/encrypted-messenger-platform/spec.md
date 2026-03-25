@@ -33,6 +33,27 @@ Terraform implementation MUST reuse proven Google foundation modules/blueprints 
 - **THEN** implementation prefers `cloud-foundation-fabric` modules/blueprints where they meet requirements
 - **AND** custom Terraform resources are only added for gaps not covered by Fabric modules.
 
+### Requirement: Repository structure supports app, crypto, infra-live, modules, and pipelines
+The repository MUST use a clear top-level structure that separates application code, Rust/WASM crypto code, live environment stacks, reusable Terraform/Tofu modules, and CI/CD pipelines.
+
+#### Scenario: React PWA and Rust WASM are isolated but integrated
+- **WHEN** developers work on client features
+- **THEN** the PWA lives under `apps/pwa` (React-based implementation)
+- **AND** Rust/WASM crypto code lives under `crates/messenger-crypto`
+- **AND** the PWA consumes versioned WASM build artifacts from that package boundary.
+
+#### Scenario: Live infra and reusable modules are separated
+- **WHEN** infra changes are introduced
+- **THEN** environment-specific live stacks are defined under `infra/live/<env>`
+- **AND** reusable Terraform/Tofu modules are defined under `infra/modules/*`
+- **AND** live stacks compose modules rather than duplicating resource definitions.
+
+#### Scenario: Pipelines validate and promote all layers
+- **WHEN** pull requests and deployments run
+- **THEN** pipeline definitions exist under `pipelines/`
+- **AND** they include checks for PWA, WASM, functions, and Terraform/Tofu formatting/validation
+- **AND** deployment workflow stages map to environment promotion boundaries.
+
 ### Requirement: Cloud Functions expose encrypted messenger API surface
 The backend MUST expose HTTP endpoints for auth, key management, encrypted message exchange, and push subscription management.
 

@@ -29,6 +29,50 @@ The target system is a privacy-first encrypted messenger with:
 
 ## System Design
 
+### Recommended Repository Structure
+
+Use a monorepo layout that keeps app/runtime/infrastructure/pipeline concerns separated
+but versioned together:
+
+```text
+repo-root/
+├── apps/
+│   └── pwa/                          # React + TypeScript PWA (Vite)
+│       ├── src/
+│       ├── public/
+│       ├── tests/
+│       ├── package.json
+│       └── vite.config.ts
+├── crates/
+│   └── messenger-crypto/             # Rust crate compiled to WASM
+│       ├── Cargo.toml
+│       ├── src/
+│       └── tests/
+├── functions/                        # Cloud Functions API source
+│   ├── src/
+│   ├── tests/
+│   └── package.json
+├── infra/
+│   ├── modules/                      # Reusable Terraform/Tofu modules
+│   └── live/                         # Live env stacks (dev/stage/prod)
+│       ├── dev/
+│       ├── stage/
+│       └── prod/
+├── pipelines/                        # CI/CD and deployment pipeline definitions
+│   ├── ci/
+│   ├── cd/
+│   └── scripts/
+├── openspec/
+└── docs/
+```
+
+Repository conventions:
+
+- `apps/pwa` is the React app boundary; UI state and PWA service worker live here.
+- `crates/messenger-crypto` is the only crypto implementation source of truth.
+- `infra/modules` exposes reusable building blocks; `infra/live/*` composes them per environment.
+- `pipelines/` contains reusable CI/CD definitions for lint/test/build/plan/deploy flows.
+
 ### 1) Infrastructure Layout (Terraform)
 
 Create a root `infra/` module that composes:
@@ -111,6 +155,21 @@ contracts, with these boundaries:
 - Server stores and forwards ciphertext and metadata only.
 - Server validates structure and authorization, not cryptographic correctness.
 - Client remains owner of key generation, ratchet state, and decrypt operations.
+
+### 6) Pipeline Design
+
+Pipeline stages should be modeled as reusable workflows:
+
+1. `validate`: format and validate Terraform/Tofu, lint/typecheck app and functions, and run Rust tests.
+2. `build`: build React PWA, compile WASM artifact, package functions.
+3. `plan`: run Terraform/Tofu plan for `infra/live/<env>`.
+4. `deploy`: deploy functions and static assets after gated approvals.
+
+Design choices:
+
+- Keep CI checks mandatory for every PR.
+- Keep deploy jobs environment-scoped and approval-gated.
+- Keep pipeline scripts in `pipelines/scripts/` so local and CI execution paths match.
 
 ## Execution Plan
 

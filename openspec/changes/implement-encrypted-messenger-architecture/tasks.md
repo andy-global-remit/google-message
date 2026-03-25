@@ -1,4 +1,5 @@
 - [ ] 1. Bootstrap repository structure and shared Terraform foundations
+  - [ ] 1.0 Create the top-level monorepo structure with dedicated directories: `apps/pwa`, `crates/messenger-crypto`, `infra/live`, `infra/modules`, and `.github/workflows`.
   - [ ] 1.1 Create root `infra/` files (`main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`) and environment tfvars files for `dev` and `prod`.
   - [ ] 1.2 Implement `modules/project-services` to enable required GCP APIs from the architecture and wire into root module.
   - [ ] 1.3 Implement `modules/iam` to create Cloud Functions service account and baseline roles (`datastore.user`, `logging.logWriter`, `secretAccessor`).
@@ -24,14 +25,14 @@
   - [ ] 3.7 Run function test command and lint/typecheck.
 
 - [ ] 4. Deliver Rust/WASM cryptography crate and bridge contracts
-  - [ ] 4.1 Create `pwa/crates/messenger-crypto` with module layout from architecture (`identity.rs`, `x3dh.rs`, `double_ratchet.rs`, `session.rs`, etc.).
+  - [ ] 4.1 Create `crates/messenger-crypto` with module layout from architecture (`identity.rs`, `x3dh.rs`, `double_ratchet.rs`, `session.rs`, etc.).
   - [ ] 4.2 Implement wasm-bindgen exports for identity generation, prekey generation, X3DH initiate/respond, and ratchet encrypt/decrypt.
   - [ ] 4.3 Enforce pure Rust crypto dependencies with browser CSPRNG support (`getrandom/js`) and zeroization of sensitive key material.
   - [ ] 4.4 Add Rust tests for X3DH agreement equivalence, ratchet progression, and out-of-order message handling.
   - [ ] 4.5 Add a build script for wasm-pack output to `pwa/pkg` and verify the crate compiles for `wasm32-unknown-unknown`.
 
 - [ ] 5. Deliver PWA foundation and encrypted chat client flow
-  - [ ] 5.1 Scaffold `pwa/` app with service worker, manifest, API client, auth flow, and IndexedDB persistence layer for keys/sessions.
+  - [ ] 5.1 Scaffold a React PWA in `apps/pwa/` with service worker, manifest, API client, auth flow, and IndexedDB persistence layer for keys/sessions.
   - [ ] 5.2 Implement login flow (`Sign in with Google` -> `/auth/google`) and first-login key bootstrap (`generate_identity`, signed prekey, one-time prekeys).
   - [ ] 5.3 Implement key publication and replenishment checks (`countOnly=true`, rotate signed prekey every 30 days, replenish OPKs below threshold).
   - [ ] 5.4 Implement 1:1 room derivation and message send/receive pipeline using X3DH for first message and Double Ratchet for subsequent messages.
@@ -44,3 +45,4 @@
   - [ ] 6.3 Add security checklist for JWT rotation, secret access scope, TOFU identity warnings, and push payload plaintext prohibition.
   - [ ] 6.4 Execute end-to-end validation: auth, first encrypted message, subsequent ratcheted messages, and push notification receipt.
   - [ ] 6.5 Capture post-deployment verification artifacts (logs/screenshots) and update OpenSpec task statuses when complete.
+  - [ ] 6.6 Implement CI/CD pipelines under `pipelines/` (and bridge to runner-specific entrypoints like `.github/workflows` when needed) for Terraform/Tofu checks (`fmt`, `validate`, optional `plan`), Rust/WASM build+tests, and PWA build+tests.
