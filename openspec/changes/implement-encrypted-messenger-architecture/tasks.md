@@ -1,19 +1,19 @@
-- [ ] 1. Bootstrap repository structure and shared Terraform foundations
-  - [ ] 1.0 Create the top-level monorepo structure with dedicated directories: `apps/pwa`, `crates/messenger-crypto`, `infra/live`, `infra/modules`, and `.github/workflows`.
-  - [ ] 1.1 Create root `infra/` files (`main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`) and environment tfvars files for `dev` and `prod`.
-  - [ ] 1.2 Implement `modules/project-services` to enable required GCP APIs from the architecture and wire into root module.
-  - [ ] 1.3 Implement `modules/iam` to create Cloud Functions service account and baseline roles (`datastore.user`, `logging.logWriter`, `secretAccessor`).
-  - [ ] 1.4 Integrate `terraform-example-foundation` where applicable for secure org/folder/project baseline and document reused vs custom layers.
-  - [ ] 1.5 Run `terraform fmt -check` and `terraform validate` in `infra/`.
+- [x] 1. Bootstrap repository structure and shared Terraform foundations
+  - [x] 1.0 Create the top-level monorepo structure with dedicated directories: `apps/pwa`, `crates/messenger-crypto`, `infra/live`, `infra/modules`, and `.github/workflows`.
+  - [x] 1.1 Create root `infra/` files (`main.tf`, `variables.tf`, `outputs.tf`, `providers.tf`) and environment tfvars files for `dev` and `prod`.
+  - [x] 1.2 Implement `modules/project-services` to enable required GCP APIs from the architecture and wire into root module.
+  - [x] 1.3 Implement `modules/iam` to create Cloud Functions service account and baseline roles (`datastore.user`, `logging.logWriter`, `secretAccessor`).
+  - [x] 1.4 Integrate `terraform-example-foundation` where applicable for secure org/folder/project baseline and document reused vs custom layers.
+  - [x] 1.5 Run `terraform fmt -check` and `terraform validate` in `infra/`.
 
-- [ ] 2. Implement infrastructure modules for runtime services
-  - [ ] 2.1 Implement `modules/identity-platform` for Identity Platform config and Google provider setup.
-  - [ ] 2.2 Implement `modules/firestore` for default Firestore database and required indexes for room/message queries.
-  - [ ] 2.3 Implement `modules/secret-manager` for VAPID and JWT secrets plus IAM access for function service account.
-  - [ ] 2.4 Implement `modules/cloud-functions` with function source bucket/object, one deployed function service, and invoker IAM for public HTTPS.
-  - [ ] 2.5 Reuse `cloud-foundation-fabric` modules/blueprints where applicable for service-level resources, preferring composition over bespoke resources.
-  - [ ] 2.6 Wire all modules in root `infra/main.tf` and expose function URLs/secrets references through outputs.
-  - [ ] 2.7 Run `terraform fmt -check` and `terraform validate` in `infra/`.
+- [x] 2. Implement infrastructure modules for runtime services
+  - [x] 2.1 Implement `modules/identity-platform` for Identity Platform config and Google provider setup.
+  - [x] 2.2 Implement `modules/firestore` for default Firestore database and required indexes for room/message queries.
+  - [x] 2.3 Implement `modules/secret-manager` for VAPID and JWT secrets plus IAM access for function service account.
+  - [x] 2.4 Implement `modules/cloud-functions` with function source bucket/object, one deployed function service, and invoker IAM for public HTTPS.
+  - [x] 2.5 Reuse `cloud-foundation-fabric` modules/blueprints where applicable for service-level resources, preferring composition over bespoke resources.
+  - [x] 2.6 Wire all modules in root `infra/main.tf` and expose function URLs/secrets references through outputs.
+  - [x] 2.7 Run `terraform fmt -check` and `terraform validate` in `infra/`.
 
 - [ ] 3. Deliver Cloud Functions API implementation
   - [ ] 3.1 Scaffold `functions/` with runtime (`package.json` + TypeScript tooling or Python equivalent) and shared auth/middleware utilities.
