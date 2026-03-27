@@ -18,7 +18,8 @@ permissions:
 
 concurrency:
   group: terraform-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Cancel superseded plan jobs on feature branches; never cancel an in-flight apply on main.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   terraform:
@@ -52,3 +53,7 @@ jobs:
 
       - name: Terraform plan (dev)
         run: terraform plan -input=false -no-color -var-file=environments/dev.tfvars
+
+      - name: Terraform apply (dev, main only)
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: terraform apply -input=false -auto-approve -no-color -var-file=environments/dev.tfvars
