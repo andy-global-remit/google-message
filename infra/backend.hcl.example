@@ -1,0 +1,8 @@
+# Copy to backend.hcl (gitignored) and run:
+#   terraform init -backend-config=backend.hcl
+#
+# The GCS bucket must exist before the first init; the GitHub Actions workflow
+# uses the same bucket with -backend-config flags from TF_STATE_BUCKET.
+
+bucket = "your-terraform-state-bucket"
+prefix = "terraform/state/dev"

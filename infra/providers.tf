@@ -1,6 +1,11 @@
 terraform {
   required_version = ">= 1.9.8"
 
+  # Remote state: pass bucket and prefix at init time, for example:
+  #   terraform init -backend-config=backend.hcl
+  # See backend.hcl.example in this directory.
+  backend "gcs" {}
+
   required_providers {
     google = {
       source  = "hashicorp/google"
