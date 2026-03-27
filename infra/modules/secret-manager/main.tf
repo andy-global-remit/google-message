@@ -20,7 +20,7 @@ resource "google_secret_manager_secret" "secrets" {
 resource "google_secret_manager_secret_version" "initial" {
   for_each = {
     for key, value in var.secret_initial_values : key => value
-    if contains(keys(local.resolved_secret_names), key) && trim(value) != ""
+    if contains(keys(local.resolved_secret_names), key) && trimspace(value) != ""
   }
 
   secret      = google_secret_manager_secret.secrets[each.key].id
